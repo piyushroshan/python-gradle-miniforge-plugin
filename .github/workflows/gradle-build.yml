@@ -1,0 +1,33 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Build
+
+on: [ push, pull_request ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Java JDK
+        uses: actions/setup-java@v3.3.0
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+          cache: 'gradle'
+      - name: Gradle Wrapper Validation
+        uses: gradle/wrapper-validation-action@v1.0.4
+      - name: Build and Test with Gradle
+        run: ./gradlew --no-daemon --continue build
+      - name: Publish Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1.36
+        if: always()
+        with:
+          files: build/test-results/**/*.xml
+      - name: Codecov
+        uses: codecov/codecov-action@v3.1.0
+        with:
+          files: build/reports/kover/report.xml

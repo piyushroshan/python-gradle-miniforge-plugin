@@ -1,0 +1,116 @@
+package io.github.piyushroshan.python
+
+import org.gradle.api.Project
+import org.gradle.api.model.ObjectFactory
+import org.gradle.api.provider.Property
+import org.gradle.internal.os.OperatingSystem
+import java.io.File
+
+
+/**
+ * Creates a [Property] to hold values of the given type.
+ *
+ * @param T the type of the property
+ * @return the property
+ */
+internal inline fun <reified T : Any> ObjectFactory.property(): Property<T> =
+    property(T::class.javaObjectType)
+
+/**
+ * Gets the [PythonPluginExtension] that is installed on the project.
+ */
+internal val Project.pythonPlugin: PythonPluginExtension
+    get() = extensions.getByType(PythonPluginExtension::class.java)
+
+internal val Project.miniforgeVersion: String
+    get() = pythonPlugin.miniforgeVersion.get()
+
+internal val Project.miniforgeDir: File
+    get() = this.rootDir.resolve(GRADLE_FILES_DIR)
+        .resolve(PYTHON_ENVS_DIR)
+        .resolve(os)
+        .resolve("$DEFAULT_MINIFORGE_RELEASE")
+
+internal val Project.pythonEnvName: String
+    get() = "python-${project.pythonPlugin.pythonVersion.get()}"
+
+internal val Project.pythonEnvDir: File
+    get() = this.miniforgeDir.resolve("envs").resolve(pythonEnvName)
+
+internal val Project.condaBinDir: File
+    get() {
+        return this.miniforgeDir.resolve("condabin")
+    }
+
+internal val Project.condaExec: String
+    get() {
+        return if (OperatingSystem.current().isWindows)
+            this.condaBinDir.resolve("conda.bat").path
+        else
+            this.condaBinDir.resolve("conda").path
+    }
+
+internal val Project.condaActivatePath: String
+    get() {
+        return if (OperatingSystem.current().isWindows)
+            this.condaBinDir.resolve("activate.bat").absolutePath
+        else
+            this.miniforgeDir.resolve("bin").resolve("activate").absolutePath
+    }
+
+/**
+ * Returns if operating system is Windows
+ */
+internal val isWindows: Boolean
+    get() {
+        return OperatingSystem.current().isWindows
+    }
+
+/**
+ * Returns simplified operating system name
+ */
+internal val os: String
+    get() {
+        return when {
+            OperatingSystem.current().isMacOsX -> "MacOSX"
+            isWindows -> "Windows"
+            else -> "Linux"
+        }
+    }
+
+
+/**
+ * Returns system architecture name
+ */
+internal val arch: String
+    get() {
+        val arch = System.getProperty("os.arch")
+        return when {
+            OperatingSystem.current().isMacOsX -> when (arch) {
+                "arm64", "aarch64" -> "arm64"
+                else -> "x86_64"
+            }
+            OperatingSystem.current().isLinux -> when (arch) {
+                "arm64", "aarch64" -> "aarch64"
+                else -> "x86_64"
+            }
+            OperatingSystem.current().isWindows -> when (arch) {
+                "x86_64", "amd64" -> "x86_64"
+                "arm64" -> "arm64"
+                else -> "x86"
+            }
+            else -> "x86_64"
+        }
+    }
+
+/**
+ * Returns exec extensions
+ */
+internal val exec: String
+    get() {
+        return when {
+            OperatingSystem.current().isLinux -> "sh"
+            isWindows -> "exe"
+            else -> "sh"
+        }
+    }
