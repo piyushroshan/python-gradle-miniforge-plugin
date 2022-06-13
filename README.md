@@ -1,7 +1,7 @@
 ![Gradle Version](https://img.shields.io/badge/Gradle%20Version-7.4.1-yellowgreen?style=plastic)
 ![Kotlin Version](https://img.shields.io/badge/Kotlin%20Version-1.6.21-darkviolet?style=plastic)
 
-# Python Gradle Plugin
+# Python Gradle Miniforge Plugin
 **Now, all what is required to run python scripts is Java.** 
 
 This Gradle Plugin uses [Miniforge](https://github.com/conda-forge/miniforge)
