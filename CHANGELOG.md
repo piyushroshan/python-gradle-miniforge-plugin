@@ -14,7 +14,7 @@ All notable changes to this project will be documented in this file.
 
 ### Security
 
-## [1.0.0] - 2022-06-10
+## [1.0.0] - 2022-06-14
 ### Added
 
 ### Changed
@@ -27,3 +27,4 @@ All notable changes to this project will be documented in this file.
 
 ### Security
 
+## [1.0.0] - 2022-06-10
