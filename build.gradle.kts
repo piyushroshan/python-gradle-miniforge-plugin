@@ -61,7 +61,7 @@ gradlePlugin {
             id = "io.github.piyushroshan.python-gradle-miniforge-plugin"
             implementationClass = "io.github.piyushroshan.python.PythonPlugin"
             displayName =
-                "Gradle plugin to run Python projects in Miniforge virtual env. https://github.com/piyushroshan/python-gradle-miniforge-plugin"
+                "Gradle plugin to run Python projects in miniforge virtual env. https://github.com/piyushroshan/python-gradle-miniforge-plugin"
         }
     }
 }
@@ -69,7 +69,7 @@ gradlePlugin {
 pluginBundle {
     website = "https://github.com/piyushroshan/python-gradle-miniforge-plugin"
     vcsUrl = "https://github.com/piyushroshan/python-gradle-miniforge-plugin"
-    description = "Gradle plugin to run Python projects."
+    description = "Gradle plugin to run Python projects in miniforge virtual env using the conda-forge channel."
     tags = listOf("python", "venv", "numpy", "miniforge", "conda", "scipy", "pandas")
 }
 

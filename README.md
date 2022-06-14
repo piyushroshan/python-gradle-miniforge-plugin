@@ -9,6 +9,13 @@ to run executables (`python`, `pip`, `conda` etc.) from virtual env.
 
 Python project configuration can be fully automated by Gradle tasks.   
 
+## Inspiration
+miniforge is the community (conda-forge) driven and package installations thus come from conda-forge channel resolving licensing issues and keeping the entire use open in nature.
+
+miniforge also has better arm64 and other architecture support.
+
+miniforge has a dedicated pypy support. Will enhance this plugin to support pypy.
+
 ## Requirements
 * Java JDK or JRE version 8 or higher
 
